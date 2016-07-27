@@ -597,7 +597,12 @@ cdef class NeuralNetwork:
         self.thisptr.FlushCube()
     
     def Input(self, a_Inputs):
-        self.thisptr.Input(a_Inputs)
+        cdef double[::] view
+        try:
+            view = a_Inputs
+            self.thisptr.Input(view.size, &view[0])
+        except TypeError:
+            self.thisptr.Input(a_Inputs)
     
     def Output(self):
         return self.thisptr.Output()

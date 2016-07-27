@@ -272,6 +272,7 @@ cdef extern from "src/NeuralNetwork.h" namespace "NEAT":
         void Flush()
         void FlushCube()
         void Input(vector[double]& a_Inputs)
+        void Input(const unsigned size, const double* a_Inputs)
         vector[double] Output()
         void Clear()
 
