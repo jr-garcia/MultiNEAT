@@ -604,6 +604,20 @@ void NeuralNetwork::Input(std::vector<double>& a_Inputs)
     }
 }
 
+void NeuralNetwork::Input(const unsigned size, const double* a_Inputs)
+{
+    unsigned mx = size;
+	if (mx > m_num_inputs)
+	{
+		mx = m_num_inputs;
+	}
+
+    for (unsigned int i = 0; i < mx; i++)
+    {
+        m_neurons[i].m_activation = a_Inputs[i];
+    }
+}
+
 #ifdef USE_BOOST_PYTHON
 
 void NeuralNetwork::Input_python_list(py::list& a_Inputs)

@@ -153,6 +153,7 @@ public:
     void FlushCube(); // clears the sensitivity cube
 
     void Input(std::vector<double>& a_Inputs);
+    void Input(const unsigned size, const double* a_Inputs);
 
 #ifdef USE_BOOST_PYTHON
 
