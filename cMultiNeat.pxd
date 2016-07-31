@@ -1,5 +1,7 @@
 from libcpp.vector cimport vector
+from libcpp.string cimport string
 from libcpp cimport bool
+from streams cimport istream, ifstream
 from libc.stdio cimport FILE
 
 """
@@ -281,6 +283,7 @@ cdef extern from "src/NeuralNetwork.h" namespace "NEAT":
         bool Load(const char* a_filename)
         # save/load from already opened files for reading/writing
         void Save(FILE* a_file)
+        bool Load(ifstream& a_DataFile)
 
         void AddNeuron(const Neuron& a_n)
         void AddConnection(const Connection& a_c)
@@ -348,6 +351,8 @@ cdef extern from "src/Genome.h" namespace "NEAT":
                ActivationFunction a_HiddenActType,
                unsigned int a_SeedType,
                const Parameters& a_Parameters)
+        # Builds this genome from an opened file
+        Genome(istream& a_DataFile)
 
         unsigned int NumNeurons()
         unsigned int NumLinks()
@@ -367,6 +372,7 @@ cdef extern from "src/Genome.h" namespace "NEAT":
         void Save(const char* a_filename)
         # Saves this genome to an already opened file for writing
         void Save(FILE* a_fstream);
+        void Dump(string& a_file)
 
         bool m_Evaluated
         bool IsEvaluated()

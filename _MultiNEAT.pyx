@@ -12,6 +12,8 @@
 from libcpp.vector cimport vector
 from libcpp cimport bool
 from cython.operator cimport dereference as deref, preincrement as preinc
+from libcpp.string cimport string
+from streams cimport istringstream
 cimport cMultiNeat as cmn
 
 
@@ -853,6 +855,10 @@ cdef class Genome:
     def ResetEvaluated(self):
         self.thisptr.ResetEvaluated()
 
+    # Pickling----
+    def __reduce__(Genome self):
+        return reduceAny(self, 'genome')
+
 
 cdef class Species:
     cdef cmn.Species *thisptr      # hold a C++ instance which we're wrapping
@@ -1112,3 +1118,33 @@ cdef Parameters buildParams(cmn.Parameters& par):
     tPar.thisptr = &par
     tPar.borrowed = True
     return tPar
+
+ctypedef fused pickleable:
+    Genome
+    Parameters
+    Substrate
+
+def reduceAny(pickleable thing, str what):
+    cdef tuple state
+    cdef string pFile
+    if what == 'genome':
+        (<Genome>thing).thisptr.Dump(pFile)
+    elif what == 'param':
+        raise NotImplementedError('')
+    elif what == 'subs':
+        raise NotImplementedError('')
+    cdef str pyOut = pFile
+    state = (pyOut, what)
+    return _rebuildPickled, state
+
+def _rebuildPickled(*state):
+    cdef istringstream file
+    cdef Genome pg
+    cdef cmn.Genome* ng
+    cdef bint bres
+    file.str(state[0])
+    if state[1] == 'genome':
+        ng = new cmn.Genome(file)
+        pg = pyGenomeFromReference(deref(ng))
+        pg.borrowed = False
+        return pg
