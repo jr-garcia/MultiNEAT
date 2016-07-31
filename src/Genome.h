@@ -160,7 +160,7 @@ public:
     Genome(const char* a_filename);
 
     // Builds this genome from an opened file
-    Genome(std::ifstream& a_DataFile);
+    Genome(std::istream& a_DataFile);
 
     // This creates a standart minimal genome - perceptron-like structure
     Genome(unsigned int a_ID,
@@ -336,6 +336,7 @@ public:
 
     // Saves this genome to an already opened file for writing
     void Save(FILE* a_fstream);
+    void Dump(std::string& a_file_s);
 
     // returns the max neuron ID
     unsigned int GetLastNeuronID() const;

@@ -2748,7 +2748,7 @@ Genome::Genome(const char* a_FileName)
 }
 
 // Builds the genome from an *opened* file
-Genome::Genome(std::ifstream& a_DataFile)
+Genome::Genome(std::istream& a_DataFile)
 {
     std::string t_Str;
 
@@ -2851,24 +2851,39 @@ void Genome::Save(const char* a_FileName)
 // Saves this genome to an already opened file for writing
 void Genome::Save(FILE* a_file)
 {
-    fprintf(a_file, "GenomeStart %d\n", GetID());
+    std::string a_file_s;
+    Dump(a_file_s);
+    fprintf(a_file, &a_file_s[0]);
+}
+
+// Put this genome into string
+void Genome::Dump(std::string& a_file_s)
+{
+    int len = 0;
+    char* g_char = (char*)malloc(100000);
+    len = sprintf(g_char, "GenomeStart %d\n", GetID());
 
     // loop over the neurons and save each one
     for(unsigned int i=0; i<NumNeurons(); i++)
     {
         // Save neuron
-        fprintf(a_file, "Neuron %d %d %3.8f %d %3.8f %3.8f %3.8f %3.8f\n",
+        len += sprintf(g_char + len, "Neuron %d %d %3.8f %d %3.8f %3.8f %3.8f %3.8f\n",
                 m_NeuronGenes[i].ID(), static_cast<int>(m_NeuronGenes[i].Type()), m_NeuronGenes[i].SplitY(),
-                static_cast<int>(m_NeuronGenes[i].m_ActFunction), m_NeuronGenes[i].m_A, m_NeuronGenes[i].m_B, m_NeuronGenes[i].m_TimeConstant, m_NeuronGenes[i].m_Bias);
+                static_cast<int>(m_NeuronGenes[i].m_ActFunction), m_NeuronGenes[i].m_A, m_NeuronGenes[i].m_B,
+                m_NeuronGenes[i].m_TimeConstant, m_NeuronGenes[i].m_Bias);
     }
 
     // loop over the connections and save each one
     for(unsigned int i=0; i<NumLinks(); i++)
     {
-        fprintf(a_file, "Link %d %d %d %d %3.8f\n", m_LinkGenes[i].FromNeuronID(), m_LinkGenes[i].ToNeuronID(), m_LinkGenes[i].InnovationID(), static_cast<int>(m_LinkGenes[i].IsRecurrent()), m_LinkGenes[i].GetWeight());
+        len += sprintf(g_char + len, "Link %d %d %d %d %3.8f\n", m_LinkGenes[i].FromNeuronID(), m_LinkGenes[i]
+        .ToNeuronID(),
+        m_LinkGenes[i].InnovationID(), static_cast<int>(m_LinkGenes[i].IsRecurrent()), m_LinkGenes[i].GetWeight());
     }
 
-    fprintf(a_file, "GenomeEnd\n\n");
+    sprintf(g_char + len,  "GenomeEnd\n\n");
+    a_file_s = g_char;
+    free(g_char);
 }
 
 
