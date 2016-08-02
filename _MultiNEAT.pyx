@@ -448,10 +448,81 @@ cdef class Parameters:
         def __get__(self): return self.thisptr.CompatTreshChangeInterval_Evaluations
         def __set__(self, CompatTreshChangeInterval_Evaluations): self.thisptr.CompatTreshChangeInterval_Evaluations = CompatTreshChangeInterval_Evaluations
 
+    property Elitism:
+        '''Fraction of individuals to be copied unchanged'''
+        def __get__(self): return self.thisptr.Elitism
+        def __set__(self, double Elitism): self.thisptr.Elitism = Elitism
+
+    ##############
+    # ES HyperNEAT params
+    ##############
     property DivisionThreshold:
         def __get__(self): return self.thisptr.DivisionThreshold
         def __set__(self, DivisionThreshold): self.thisptr.DivisionThreshold = DivisionThreshold
 
+    property VarianceThreshold:
+        def __get__(self): return self.thisptr.VarianceThreshold
+        def __set__(self, VarianceThreshold): self.thisptr.VarianceThreshold = VarianceThreshold
+
+    property BandThreshold:
+        '''Used for Band prunning.'''
+        def __get__(self): return self.thisptr.BandThreshold
+        def __set__(self, BandThreshold): self.thisptr.BandThreshold = BandThreshold
+        
+    property InitialDepth:
+        '''Min Depth of the quadtree'''
+        def __get__(self): return self.thisptr.InitialDepth
+        def __set__(self, unsigned int InitialDepth): self.thisptr.InitialDepth = InitialDepth
+
+    property MaxDepth:
+        '''Max Depth of the quadtree'''
+        def __get__(self): return self.thisptr.MaxDepth
+        def __set__(self, unsigned int MaxDepth): self.thisptr.MaxDepth = MaxDepth
+
+    property IterationLevel:
+        '''How many hidden layers before connecting nodes to output. 
+        At 0 there is one hidden layer. At 1, there are two and so on.'''
+        def __get__(self): return self.thisptr.IterationLevel
+        def __set__(self, unsigned int IterationLevel): self.thisptr.IterationLevel = IterationLevel
+
+    property CPPN_Bias:
+        '''The Bias value for the CPPN queries'''
+        def __get__(self): return self.thisptr.CPPN_Bias
+        def __set__(self, double CPPN_Bias): self.thisptr.CPPN_Bias = CPPN_Bias
+
+    property Width:
+        def __get__(self): return self.thisptr.Width
+        def __set__(self, double Width): self.thisptr.Width = Width
+
+    property Height:
+        def __get__(self): return self.thisptr.Height
+        def __set__(self, double Height): self.thisptr.Height = Height
+
+    property Qtree_X:
+        def __get__(self): return self.thisptr.Qtree_X
+        def __set__(self, double Qtree_X): self.thisptr.Qtree_X = Qtree_X
+
+    property Qtree_Y:
+        def __get__(self): return self.thisptr.Qtree_Y
+        def __set__(self, double Qtree_Y): self.thisptr.Qtree_Y = Qtree_Y
+
+    property Leo:
+        '''Use Link Expression output'''
+        def __get__(self): return self.thisptr.Leo
+        def __set__(self, bint Leo): self.thisptr.Leo = Leo    
+
+    property LeoThreshold:
+        '''Threshold above which a connection is expressed'''
+        def __get__(self): return self.thisptr.LeoThreshold
+        def __set__(self, double LeoThreshold): self.thisptr.LeoThreshold = LeoThreshold
+
+    property LeoSeed:
+        def __get__(self): return self.thisptr.LeoSeed
+        def __set__(self, bint LeoSeed): self.thisptr.LeoSeed = LeoSeed
+
+    property GeometrySeed:
+        def __get__(self): return self.thisptr.GeometrySeed
+        def __set__(self, bint GeometrySeed): self.thisptr.GeometrySeed = GeometrySeed
 
 cdef class Connection:
     cdef cmn.Connection *thisptr      # hold a C++ instance which we're wrapping
@@ -687,79 +758,79 @@ cdef class Substrate:
     def PrintInfo(self):
         return self.thisptr.PrintInfo()
 
-    property input_coords:
+    property m_input_coords:
             def __get__(self): return self.thisptr.m_input_coords
             def __set__(self, m_input_coords): self.thisptr.m_input_coords = m_input_coords
             
-    property hidden_coords:
+    property m_hidden_coords:
             def __get__(self): return self.thisptr.m_hidden_coords
             def __set__(self, m_hidden_coords): self.thisptr.m_hidden_coords = m_hidden_coords
             
-    property output_coords:
+    property m_output_coords:
             def __get__(self): return self.thisptr.m_output_coords
             def __set__(self, m_output_coords): self.thisptr.m_output_coords = m_output_coords
             
-    property leaky:
+    property m_leaky:
             def __get__(self): return self.thisptr.m_leaky
             def __set__(self, m_leaky): self.thisptr.m_leaky = m_leaky
             
-    property with_distance:
+    property m_with_distance:
             def __get__(self): return self.thisptr.m_with_distance
             def __set__(self, m_with_distance): self.thisptr.m_with_distance = m_with_distance
             
-    property allow_input_hidden_links:
+    property m_allow_input_hidden_links:
             def __get__(self): return self.thisptr.m_allow_input_hidden_links
             def __set__(self, m_allow_input_hidden_links): self.thisptr.m_allow_input_hidden_links = m_allow_input_hidden_links
             
-    property allow_input_output_links:
+    property m_allow_input_output_links:
             def __get__(self): return self.thisptr.m_allow_input_output_links
             def __set__(self, m_allow_input_output_links): self.thisptr.m_allow_input_output_links = m_allow_input_output_links
             
-    property allow_hidden_hidden_links:
+    property m_allow_hidden_hidden_links:
             def __get__(self): return self.thisptr.m_allow_hidden_hidden_links
             def __set__(self, m_allow_hidden_hidden_links): self.thisptr.m_allow_hidden_hidden_links = m_allow_hidden_hidden_links
             
-    property allow_hidden_output_links:
+    property m_allow_hidden_output_links:
             def __get__(self): return self.thisptr.m_allow_hidden_output_links
             def __set__(self, m_allow_hidden_output_links): self.thisptr.m_allow_hidden_output_links = m_allow_hidden_output_links
             
-    property allow_output_hidden_links:
+    property m_allow_output_hidden_links:
             def __get__(self): return self.thisptr.m_allow_output_hidden_links
             def __set__(self, m_allow_output_hidden_links): self.thisptr.m_allow_output_hidden_links = m_allow_output_hidden_links
             
-    property allow_output_output_links:
+    property m_allow_output_output_links:
             def __get__(self): return self.thisptr.m_allow_output_output_links
             def __set__(self, m_allow_output_output_links): self.thisptr.m_allow_output_output_links = m_allow_output_output_links
             
-    property allow_looped_hidden_links:
+    property m_allow_looped_hidden_links:
             def __get__(self): return self.thisptr.m_allow_looped_hidden_links
             def __set__(self, m_allow_looped_hidden_links): self.thisptr.m_allow_looped_hidden_links = m_allow_looped_hidden_links
             
-    property allow_looped_output_links:
+    property m_allow_looped_output_links:
             def __get__(self): return self.thisptr.m_allow_looped_output_links
             def __set__(self, m_allow_looped_output_links): self.thisptr.m_allow_looped_output_links = m_allow_looped_output_links
             
-    property hidden_nodes_activation:
+    property m_hidden_nodes_activation:
             def __get__(self): return self.thisptr.m_hidden_nodes_activation
             def __set__(self, m_hidden_nodes_activation): self.thisptr.m_hidden_nodes_activation = m_hidden_nodes_activation
             
-    property output_nodes_activation:
+    property m_output_nodes_activation:
             def __get__(self): return self.thisptr.m_output_nodes_activation
             def __set__(self, m_output_nodes_activation): self.thisptr.m_output_nodes_activation = m_output_nodes_activation
             
-    # property link_threshold:
+    # property m_link_threshold:
     #         def __get__(self): return self.thisptr.m_link_threshold
     #         def __set__(self, m_link_threshold): self.thisptr.m_link_threshold = m_link_threshold
             
-    property max_weight_and_bias:
+    property m_max_weight_and_bias:
             def __get__(self): return self.thisptr.m_max_weight_and_bias
             def __set__(self, m_max_weight_and_bias): self.thisptr.m_max_weight_and_bias = m_max_weight_and_bias
             
-    property min_time_const:
+    property m_min_time_const:
             def __get__(self): return self.thisptr.m_min_time_const
             def __set__(self, m_min_time_const): self.thisptr.m_min_time_const = m_min_time_const
             
-    property max_time_const:
+    property m_max_time_const:
             def __get__(self): return self.thisptr.m_max_time_const
             def __set__(self, m_max_time_const): self.thisptr.m_max_time_const = m_max_time_const
 
@@ -845,6 +916,9 @@ cdef class Genome:
     
     def BuildHyperNEATPhenotype(self, NeuralNetwork net, Substrate subst):
         self.thisptr.BuildHyperNEATPhenotype(deref(net.thisptr), deref(subst.thisptr))
+
+    def BuildESHyperNEATPhenotype(Genome self, NeuralNetwork a_net, Substrate subst, Parameters params):
+        self.thisptr.BuildESHyperNEATPhenotype(deref(a_net.thisptr), deref(subst.thisptr), deref(params.thisptr))
     
     def Save(self, str a_filename):
         self.thisptr.Save(a_filename)
