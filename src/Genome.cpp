@@ -2860,29 +2860,32 @@ void Genome::Save(FILE* a_file)
 void Genome::Dump(std::string& a_file_s)
 {
     int len = 0;
-    char* g_char = (char*)malloc(100000);
+    char* g_char = (char*)malloc(1000);
     len = sprintf(g_char, "GenomeStart %d\n", GetID());
+    a_file_s.append(g_char, len);
 
     // loop over the neurons and save each one
     for(unsigned int i=0; i<NumNeurons(); i++)
     {
         // Save neuron
-        len += sprintf(g_char + len, "Neuron %d %d %3.8f %d %3.8f %3.8f %3.8f %3.8f\n",
+        len = sprintf(g_char, "Neuron %d %d %3.8f %d %3.8f %3.8f %3.8f %3.8f\n",
                 m_NeuronGenes[i].ID(), static_cast<int>(m_NeuronGenes[i].Type()), m_NeuronGenes[i].SplitY(),
                 static_cast<int>(m_NeuronGenes[i].m_ActFunction), m_NeuronGenes[i].m_A, m_NeuronGenes[i].m_B,
                 m_NeuronGenes[i].m_TimeConstant, m_NeuronGenes[i].m_Bias);
+        a_file_s.append(g_char, len);
     }
 
     // loop over the connections and save each one
     for(unsigned int i=0; i<NumLinks(); i++)
     {
-        len += sprintf(g_char + len, "Link %d %d %d %d %3.8f\n", m_LinkGenes[i].FromNeuronID(), m_LinkGenes[i]
+        len = sprintf(g_char, "Link %d %d %d %d %3.8f\n", m_LinkGenes[i].FromNeuronID(), m_LinkGenes[i]
         .ToNeuronID(),
         m_LinkGenes[i].InnovationID(), static_cast<int>(m_LinkGenes[i].IsRecurrent()), m_LinkGenes[i].GetWeight());
+        a_file_s.append(g_char, len);
     }
 
-    sprintf(g_char + len,  "GenomeEnd\n\n");
-    a_file_s = g_char;
+    len = sprintf(g_char,  "GenomeEnd\n\n");
+    a_file_s.append(g_char, len);
     free(g_char);
 }
 
